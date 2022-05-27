@@ -9,7 +9,7 @@ func TestStringSumSubstractOperation(t *testing.T) {
 	got, err := StringSum("15-8")
 
 	if got != want {
-		t.Errorf("got: %s, want: %s\nerror: %v", got, want, err)
+		t.Errorf("TestStringSumSubstractOperation got: %s, want: %s\nerror: %v", got, want, err)
 	}
 }
 
@@ -18,7 +18,7 @@ func TestStringSumAddOperation(t *testing.T) {
 	got, err := StringSum("15+8")
 
 	if got != want {
-		t.Errorf("got: %s, want: %s\nerror: %v", got, want, err)
+		t.Errorf("TestStringSumAddOperation got: %s, want: %s\nerror: %v", got, want, err)
 	}
 }
 
@@ -27,7 +27,7 @@ func TestStringSumErrorNotTwoOperands(t *testing.T) {
 	_, err := StringSum("15")
 
 	if err.Error() != want.Error() {
-		t.Errorf("got: %s, want: %s", err, want)
+		t.Errorf("TestStringSumErrorNotTwoOperands got: %s, want: %s", err, want)
 	}
 }
 
@@ -36,7 +36,7 @@ func TestStringSumMoreThanTwoOperands(t *testing.T) {
 	_, err := StringSum("15+8+9")
 
 	if err.Error() != want.Error() {
-		t.Errorf("got: %s, want: %s", err, want)
+		t.Errorf("TestStringSumMoreThanTwoOperands got: %s, want: %s", err, want)
 	}
 }
 
@@ -45,6 +45,6 @@ func TestStringSumErrorEmptyInput(t *testing.T) {
 	_, err := StringSum("          ")
 
 	if err.Error() != want.Error() {
-		t.Errorf("got: %s, want: %s", err, want)
+		t.Errorf("TestStringSumErrorEmptyInput got: %s, want: %s", err, want)
 	}
 }
