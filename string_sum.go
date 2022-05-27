@@ -29,27 +29,29 @@ func StringSum(input string) (output string, err error) {
 	inputTrimmed, prefix := processInput(input)
 
 	if prefix+inputTrimmed == "" {
-		return "", fmt.Errorf(errorEmptyInput.Error(), errorEmptyInput)
+		return "", fmt.Errorf(errorEmptyInput.Error())
 	}
 
 	operand1, operand2, operation, errorOperand := getOperands(inputTrimmed)
 
 	if errorOperand != nil {
-		return "", fmt.Errorf(errorOperand.Error(), errorOperand)
+		return "", fmt.Errorf(errorOperand.Error())
 	}
 
 	if operand1 == "" || operand2 == "" {
-		return "", fmt.Errorf(errorNotTwoOperands.Error(), errorNotTwoOperands)
+		return "", fmt.Errorf(errorNotTwoOperands.Error())
 	}
 
 	value1, errConv := strconv.Atoi(prefix + operand1)
 	if errConv != nil {
-		return "", fmt.Errorf(errConv.Error(), errConv)
+		e := errConv.(*strconv.NumError)
+		return "", fmt.Errorf(e.Err.Error())
 	}
 
 	value2, errConv := strconv.Atoi(operand2)
 	if errConv != nil {
-		return "", fmt.Errorf(errConv.Error(), errConv)
+		e := errConv.(*strconv.NumError)
+		return "", fmt.Errorf(e.Err.Error())
 	}
 
 	if operation == "+" {
