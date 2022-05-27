@@ -44,14 +44,12 @@ func StringSum(input string) (output string, err error) {
 
 	value1, errConv := strconv.Atoi(prefix + operand1)
 	if errConv != nil {
-		e := errConv.(*strconv.NumError)
-		return "", fmt.Errorf(e.Err.Error())
+		return "", errConv.(*strconv.NumError)
 	}
 
 	value2, errConv := strconv.Atoi(operand2)
 	if errConv != nil {
-		e := errConv.(*strconv.NumError)
-		return "", fmt.Errorf(e.Err.Error())
+		return "", errConv.(*strconv.NumError)
 	}
 
 	if operation == "+" {
