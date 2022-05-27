@@ -32,7 +32,11 @@ func StringSum(input string) (output string, err error) {
 		return "", fmt.Errorf(errorEmptyInput.Error())
 	}
 
-	operand1, operand2, operation := getOperands(inputTrimmed)
+	operand1, operand2, operation, errorOperand := getOperands(inputTrimmed)
+
+	if errorOperand != nil {
+		return "", fmt.Errorf(errorOperand.Error())
+	}
 
 	if operand1 == "" || operand2 == "" {
 		return "", fmt.Errorf(errorNotTwoOperands.Error())
@@ -66,10 +70,11 @@ func processInput(input string) (result string, prefix string) {
 	return result, prefix
 }
 
-func getOperands(input string) (operand1 string, operand2 string, operation string) {
+func getOperands(input string) (operand1 string, operand2 string, operation string, err error) {
 	runes := []rune(input)
 	totalLength := len(runes)
 	fillOperand2 := false
+	totalOperands := 0
 
 	for i := 0; i < totalLength; i++ {
 		//32 = whitespace
@@ -79,6 +84,12 @@ func getOperands(input string) (operand1 string, operand2 string, operation stri
 
 		//43 = +, 45 = -
 		if runes[i] == 43 || runes[i] == 45 {
+			totalOperands++
+
+			if totalOperands > 1 {
+				return "", "", "", errorNotTwoOperands
+			}
+
 			operation = string(runes[i])
 			fillOperand2 = true
 			continue
@@ -92,5 +103,5 @@ func getOperands(input string) (operand1 string, operand2 string, operation stri
 		operand1 += string(runes[i])
 	}
 
-	return operand1, operand2, operation
+	return operand1, operand2, operation, nil
 }

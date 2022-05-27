@@ -31,6 +31,15 @@ func TestStringSumErrorNotTwoOperands(t *testing.T) {
 	}
 }
 
+func TestStringSumMoreThanTwoOperands(t *testing.T) {
+	want := errorNotTwoOperands
+	_, err := StringSum("15+8+9")
+
+	if err.Error() != want.Error() {
+		t.Errorf("got: %s, want: %s", err, want)
+	}
+}
+
 func TestStringSumErrorEmptyInput(t *testing.T) {
 	want := errorEmptyInput
 	_, err := StringSum("          ")
