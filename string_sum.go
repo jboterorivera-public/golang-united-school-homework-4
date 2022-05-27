@@ -25,6 +25,15 @@ var (
 //
 // Use the errors defined above as described, again wrapping into fmt.Errorf
 
+type CustomError struct {
+	Message string
+	Err     error
+}
+
+func (c CustomError) Error() string {
+	return c.Message
+}
+
 func StringSum(input string) (output string, err error) {
 	inputTrimmed, prefix := processInput(input)
 
@@ -44,12 +53,16 @@ func StringSum(input string) (output string, err error) {
 
 	value1, errConv := strconv.Atoi(prefix + operand1)
 	if errConv != nil {
-		return "", errConv.(*strconv.NumError)
+		e := CustomError{Message: errConv.Error()}
+		e.Err = errConv.(*strconv.NumError)
+		return "", e
 	}
 
 	value2, errConv := strconv.Atoi(operand2)
 	if errConv != nil {
-		return "", errConv.(*strconv.NumError)
+		e := CustomError{Message: errConv.Error()}
+		e.Err = errConv.(*strconv.NumError)
+		return "", e
 	}
 
 	if operation == "+" {
