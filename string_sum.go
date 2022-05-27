@@ -34,6 +34,10 @@ func (c CustomError) Error() string {
 	return c.Message
 }
 
+func (c CustomError) Unwrap() error {
+	return c.Err
+}
+
 func StringSum(input string) (output string, err error) {
 	inputTrimmed, prefix := processInput(input)
 
@@ -53,16 +57,12 @@ func StringSum(input string) (output string, err error) {
 
 	value1, errConv := strconv.Atoi(prefix + operand1)
 	if errConv != nil {
-		e := CustomError{Message: errConv.Error()}
-		e.Err = errConv.(*strconv.NumError)
-		return "", e
+		return "", customStrConvError(errConv)
 	}
 
 	value2, errConv := strconv.Atoi(operand2)
 	if errConv != nil {
-		e := CustomError{Message: errConv.Error()}
-		e.Err = errConv.(*strconv.NumError)
-		return "", e
+		return "", customStrConvError(errConv)
 	}
 
 	if operation == "+" {
@@ -117,4 +117,11 @@ func getOperands(input string) (operand1 string, operand2 string, operation stri
 	}
 
 	return operand1, operand2, operation, nil
+}
+
+func customStrConvError(e error) (c CustomError) {
+	c = CustomError{Message: e.Error()}
+	c.Err = fmt.Errorf("Error [%w]", e.(*strconv.NumError))
+
+	return c
 }
