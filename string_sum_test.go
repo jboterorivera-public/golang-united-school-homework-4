@@ -4,20 +4,38 @@ import (
 	"testing"
 )
 
-func TestStringSum1(t *testing.T) {
-	want := "-7"
-	got, err := StringSum("      - 15 + 8  ")
+func TestStringSumSubstractOperation(t *testing.T) {
+	want := "7"
+	got, err := StringSum("15-8")
 
 	if got != want {
-		t.Errorf("TestStringSum = %s, want %s\nerror: %v", got, want, err)
+		t.Errorf("got: %s, want: %s\nerror: %v", got, want, err)
 	}
 }
 
-func TestStringSum2(t *testing.T) {
+func TestStringSumAddOperation(t *testing.T) {
 	want := "23"
-	got, err := StringSum("       15 + 8  ")
+	got, err := StringSum("15+8")
 
 	if got != want {
-		t.Errorf("TestStringSum2 = %s, want %s\nerror: %v", got, want, err)
+		t.Errorf("got: %s, want: %s\nerror: %v", got, want, err)
+	}
+}
+
+func TestStringSumErrorNotTwoOperands(t *testing.T) {
+	want := errorNotTwoOperands
+	_, err := StringSum("15")
+
+	if err.Error() != want.Error() {
+		t.Errorf("got: %s, want: %s", err, want)
+	}
+}
+
+func TestStringSumErrorEmptyInput(t *testing.T) {
+	want := errorEmptyInput
+	_, err := StringSum("          ")
+
+	if err.Error() != want.Error() {
+		t.Errorf("got: %s, want: %s", err, want)
 	}
 }
