@@ -121,7 +121,7 @@ func getOperands(input string) (operand1 string, operand2 string, operation stri
 
 func customStrConvError(e error) (c CustomError) {
 	c = CustomError{Message: e.Error()}
-	c.Err = fmt.Errorf("Error [%w]", e.(*strconv.NumError))
+	c.Err = e.(*strconv.NumError)
 
 	return c
 }
