@@ -42,17 +42,17 @@ func StringSum(input string) (output string, err error) {
 	inputTrimmed, prefix := processInput(input)
 
 	if prefix+inputTrimmed == "" {
-		return "", fmt.Errorf(errorEmptyInput.Error())
+		return "", customFmtError(errorEmptyInput)
 	}
 
 	operand1, operand2, operation, errorOperand := getOperands(inputTrimmed)
 
 	if errorOperand != nil {
-		return "", fmt.Errorf(errorOperand.Error())
+		return "", customFmtError(errorOperand)
 	}
 
 	if operand1 == "" || operand2 == "" {
-		return "", fmt.Errorf(errorNotTwoOperands.Error())
+		return "", customFmtError(errorNotTwoOperands)
 	}
 
 	value1, errConv := strconv.Atoi(prefix + operand1)
@@ -122,6 +122,13 @@ func getOperands(input string) (operand1 string, operand2 string, operation stri
 func customStrConvError(e error) (c CustomError) {
 	c = CustomError{Message: e.Error()}
 	c.Err = e.(*strconv.NumError)
+
+	return c
+}
+
+func customFmtError(e error) (c CustomError) {
+	c = CustomError{Message: e.Error()}
+	c.Err = fmt.Errorf(e.Error(), e)
 
 	return c
 }
