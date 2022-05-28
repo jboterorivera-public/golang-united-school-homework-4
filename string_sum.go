@@ -128,7 +128,7 @@ func customStrConvError(e error) (c CustomError) {
 
 func customFmtError(e error) (c CustomError) {
 	c = CustomError{Message: e.Error()}
-	c.Err = fmt.Errorf(e.Error(), e)
+	c.Err = fmt.Errorf("Error %w", e)
 
 	return c
 }
